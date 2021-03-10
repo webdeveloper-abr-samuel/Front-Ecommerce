@@ -20,15 +20,11 @@
       <!-- site__body -->
       <div class="site__body">
         <!-- .block-slideshow -->
-        <SlideShow />
+        <Slides />
         <!-- .block-slideshow / end -->
 
-        <!-- .block-features -->
-        <Features />
-        <!-- .block-features / end -->
-
         <!-- .block-banner -->
-        <Banner />
+        <Promotions />
         <!-- .block-banner / end -->
 
         <!-- .block-products -->
@@ -36,7 +32,7 @@
         <!-- .block-products / end -->
 
         <!-- .block-categories -->
-        <Categories />
+        <Distributors />
         <!-- .block-categories / end -->
 
         <!-- .block-posts -->
@@ -56,11 +52,10 @@
 
 <script>
 //Blocks
-import SlideShow from "./blockComponents/slideShow";
-import Features from "./blockComponents/features";
-import Banner from "./blockComponents/banner";
+import Slides from "./blockComponents/slides";
+import Promotions from "./blockComponents/promotions";
 import Products from "./blockComponents/products";
-import Categories from "./blockComponents/categories";
+import Distributors from "./blockComponents/distributors";
 import Post from "./blockComponents/post";
 import Ubicacion from './blockComponents/ubicacion';
 
@@ -72,11 +67,10 @@ import Header from "./layouts/header";
 export default {
   name: "Home",
   components: {
-    SlideShow,
-    Features,
-    Banner,
+    Slides,
+    Promotions,
     Products,
-    Categories,
+    Distributors,
     Post,
     Ubicacion,
     Footer,

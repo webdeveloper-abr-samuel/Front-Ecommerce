@@ -7,6 +7,9 @@ import Register from '../components/layouts/auth/register.vue';
 import Shop from '../components/ComponentHomeTwo/shop.vue'
 import Checkout from '../components/ComponentHomeTwo/checkout.vue'
 import DetailsProduct from '../components/ComponentHomeTwo/detailsproduct.vue'
+import Cart from '../components/ComponentHomeTwo/cart.vue'
+import Contact from '../components/blockComponents/contactUs.vue'
+import TratamientoDeDatos from '../components/ComponentFooter/tratamiendoDeDatos.vue'
 
 Vue.use(VueRouter)
 
@@ -45,6 +48,21 @@ const routes = [
     path: '/details_product',
     name: 'DetailsProduct',
     component: DetailsProduct
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: Contact
+  },
+  {
+    path: '/tratamiento_de_datos',
+    name: 'TratamientoDeDatos',
+    component: TratamientoDeDatos
   }
 ]
 

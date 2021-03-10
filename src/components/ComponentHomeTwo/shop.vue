@@ -21,7 +21,7 @@
                         </nav>
                     </div>
                     <div class="page-header__title">
-                        <h1>Distribuidor {{ nameDistributor }}</h1>
+                        <h1>DISTRIBUIDOR {{ nameDistributor }}</h1>
                     </div>
                 </div>
             </div>
@@ -41,50 +41,12 @@
                                             <div class="filter__body" data-collapse-content>
                                                 <div class="filter__container">
                                                     <div class="filter-categories">
-                                                        <ul class="filter-categories__list">
-
-                                                            <!-- AGLOMERADOS -->
+                                                        <ul class="filter-categories__list" v-for="(item, index) in category" :key="index">
                                                             <li class="filter-categories__item filter-categories__item--current">
-                                                                <h6>Aglomerados</h6>
+                                                                <button class="btn btn-link text-dark font-weight-bold"  @click="loadProduct(item.category)">{{ item.category }}</button>
                                                             </li>
-                                                            <li class="filter-categories__item filter-categories__item--child">
-                                                                <a href="#">Discos</a>
-                                                                <div class="filter-categories__counter">15</div>
-                                                            </li>
-                                                            <li class="filter-categories__item filter-categories__item--child">
-                                                                <a href="#">Ruedas</a>
-                                                                <div class="filter-categories__counter">2</div>
-                                                            </li>
-                                                            <li class="filter-categories__item filter-categories__item--child">
-                                                                <a href="#">Otros</a>
-                                                                <div class="filter-categories__counter">30</div>
-                                                            </li>
-
-                                                            <!-- RECUBIERTOS -->
-                                                            <li class="filter-categories__item filter-categories__item--current mt-4">
-                                                                <h6>Recubiertos</h6>
-                                                            </li>
-                                                            <li class="filter-categories__item filter-categories__item--child">
-                                                                <a href="#">Discos</a>
-                                                                <div class="filter-categories__counter">15</div>
-                                                            </li>
-                                                            <li class="filter-categories__item filter-categories__item--child">
-                                                                <a href="#">Ruedas</a>
-                                                                <div class="filter-categories__counter">2</div>
-                                                            </li>
-                                                            <li class="filter-categories__item filter-categories__item--child">
-                                                                <a href="#">Otros</a>
-                                                                <div class="filter-categories__counter">30</div>
-                                                            </li>
-
-                                                            <!-- COMPLEMENTARIOS -->
-                                                            <li class="filter-categories__item filter-categories__item--current mt-4">
-                                                                <a href=""><h6>Complementarios</h6></a>
-                                                            </li>
-
-                                                            <!-- SEGMENTOS -->
-                                                            <li class="filter-categories__item filter-categories__item--current mt-4">
-                                                                <a href=""><h6>Segmentos</h6></a>
+                                                            <li class="filter-categories__item filter-categories__item--child" v-for="(data, index) in subcategory" :key="index" v-show="data.category == item.category">
+                                                                <button class="btn btn-link text-dark" @click="loadProduct(item.category,data.subcategory)">{{ data.subcategory }}</button>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -94,12 +56,10 @@
                                     </div>
                                 </div>
                             </div>
-
-                            
                         </div>
                     </div>
 
-                    <ShopContent v-bind:allProduct="allProduct"></ShopContent>
+                    <ShopContent v-bind:allProduct="allProduct" v-bind:filterProduct="filterProduct"></ShopContent>
                 </div>
             </div>
         </div>
@@ -116,7 +76,10 @@ export default {
     data() {
         return {
             nameDistributor: "",
-            allProduct: []
+            allProduct: [],
+            filterProduct: [],
+            category: [],
+            subcategory: []
         }
     },
     components: {
@@ -125,14 +88,51 @@ export default {
     },
     created() {
         this.loadProduct();
+        this.loadCategories();
     },
     methods: {
-       async loadProduct(){
+       async loadProduct(categoria, subcategoria){
             this.nameDistributor = localStorage.getItem("nameDistributor");
             const id = localStorage.getItem("idDistributor");
             try {
                 const result = await this.axios.get(`/price/filter/product/${id}`);
+                const filter = result.data.data.filter((element) => {
+                    if (element.category === categoria && element.subcategory === subcategoria) {
+                        return element
+                    }
+                });
+
+                const filterCategoria = result.data.data.filter((element) => {
+                    if (element.category === categoria) {
+                        return element
+                    }
+                });
+
+                if (filter != "") {
+                    this.filterProduct = filter;
+                }else{
+                    this.filterProduct = filterCategoria;
+                }
+                
                 this.allProduct = result.data.data
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async loadCategories(){
+            try {
+                const result = await this.axios.get('/relation_category_subcategory');
+                const map = new Map();
+                for (const item of result.data.data) {
+                    if(!map.has(item.category)){
+                        map.set(item.category, true);    // set any value to Map
+                        this.category.push({category: item.category});
+                    }
+                }
+                
+                this.subcategory = result.data.data;
+                
             } catch (error) {
                 console.log(error);
             }

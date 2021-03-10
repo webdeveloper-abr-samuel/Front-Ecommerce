@@ -206,7 +206,8 @@ h6 {
 
 .site__footer {
     -ms-flex-negative: 0;
-    flex-shrink: 0
+    flex-shrink: 0;
+    background: #ffd333;
 }
 
 .alert {
@@ -5047,8 +5048,7 @@ screen and (-ms-high-contrast:active) {
 .footer-newsletter__social-links {
     display: -ms-flexbox;
     display: flex;
-    margin: 8px 0 0;
-    padding: 0;
+    margin: 8px 0 0 40px;
     list-style: none
 }
 
@@ -5120,7 +5120,7 @@ screen and (-ms-high-contrast:active) {
     }
 }
 
-@media (max-width:767px) {
+@media (max-width:1300px) {
     .footer-newsletter {
         text-align: center;
         margin-left: auto;
@@ -5137,8 +5137,7 @@ screen and (-ms-high-contrast:active) {
 
     .footer-newsletter__social-links {
         margin-top: 16px;
-        -ms-flex-pack: center;
-        justify-content: center
+        margin: 8px 0 0 10px;   
     }
 }
 

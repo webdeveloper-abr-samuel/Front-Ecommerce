@@ -1,19 +1,23 @@
 <template>
   <div>
+    
     <!-- mobile site__header -->
     <header class="site__header d-lg-none">
       <div class="mobile-header mobile-header--sticky mobile-header--stuck">
         <div class="mobile-header__panel">
           <div class="container">
             <div class="mobile-header__body">
+
               <button class="mobile-header__menu-button">
                 <svg width="18px" height="14px">
                   <use xlink:href="images/sprite.svg#menu-18x14"></use>
                 </svg>
               </button>
+
               <a class="mobile-header__logo" href="/">
                 <img src="images/logos/logo-abracol.png" alt="" width="90%" />
               </a>
+
               <div class="mobile-header__indicators">
                <!-- Logo Busquedad -->
                   <div class="indicator indicator--trigger--click">
@@ -72,7 +76,7 @@
 
                   <!-- Logo Tienda -->
                   <div class="indicator indicator--mobile">
-                    <a href="/checkout" class="indicator__button">
+                    <a href="/cart" class="indicator__button">
                       <span class="indicator__area">
                         <svg width="20px" height="20px">
                           <use xlink:href="images/sprite.svg#cart-20"></use>
@@ -159,16 +163,68 @@
                   </div>
 
                   <!-- Logo Tienda -->
-                  <div class="indicator indicator--mobile">
-                    <a href="/checkout" class="indicator__button">
-                      <span class="indicator__area">
-                        <svg width="20px" height="20px">
-                          <use xlink:href="images/sprite.svg#cart-20"></use>
-                        </svg>
-                        <span  class="indicator__value">{{ shop.length }}</span>
-                      </span>
-                    </a>
+                  <div class="indicator indicator--trigger--click">
+                      <a class="indicator__button">
+                          <span class="indicator__area">
+                              <svg width="20px" height="20px">
+                                  <use xlink:href="images/sprite.svg#cart-20"></use>
+                              </svg> 
+                              <span class="indicator__value">{{ shop.length }}</span>
+                          </span>
+                      </a>
+
+                      <div class="indicator__dropdown">
+                          <!-- .dropcart -->
+                          <div class="dropcart">
+                              <div class="dropcart__products-list">
+                                  <div class="dropcart__product" v-for="(product, index) in productts" v-bind:key="index">
+                                      <div class="dropcart__product-image">
+                                          <a>
+                                              <img v-bind:src= "url_img + product.ref.media[0].path" alt="">
+                                          </a>
+                                      </div>
+
+                                      <div class="dropcart__product-info">
+                                          <div class="dropcart__product-name">
+                                              <a>{{ product.ref.name }}</a>
+                                          </div>
+                                          <div class="dropcart__product-meta">
+                                              <span class="dropcart__product-quantity">{{ product.qty }}</span> x 
+                                              <span class="dropcart__product-price">${{ product.ref.precio * product.qty }}</span>
+                                          </div>
+                                      </div>
+                                      <button v-on:click="Delete(index)" type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
+                                          <svg width="10px" height="10px">
+                                              <use xlink:href="images/sprite.svg#cross-10"></use>
+                                          </svg>
+                                      </button>
+                                  </div>
+                              </div>
+                              <div class="dropcart__totals">
+                                  <table>
+                                      <tr>
+                                          <th>Subtotal</th>
+                                          <td>$5,877.00</td>
+                                      </tr>
+                                      <tr>
+                                          <th>Shipping</th>
+                                          <td>$25.00</td>
+                                      </tr>
+                                      <tr>
+                                          <th>Total</th>
+                                          <td>$5,902.00</td>
+                                      </tr>
+                                  </table>
+                              </div>
+                              <div class="dropcart__buttons">
+                                  <router-link class="btn btn-secondary" to="/cart">View Cart</router-link> 
+                                  <router-link class="btn btn-primary" to="/checkout">Checkout</router-link>
+                              </div>
+                          </div><!-- .dropcart / end -->
+                      </div>
                   </div>
+
+                  <Login />
 
                 </div>
               </div>
@@ -182,15 +238,36 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
+import Login from './auth/login';
 
 export default {
   name: "headerTwo",
+  data() {
+    return {
+      products : [],
+      url_img:  process.env.VUE_APP_IMG_URL,
+    }
+  },
+  components:{
+    Login
+  },
   computed: {
-    ...mapGetters("Shop", ['shop'] )  
+    ...mapGetters("Shop", ['shop'] ),
+    productts() {
+      const prd = []
+      for (let i = 0; i < this.shop.length; i++) {
+          prd.push(this.shop[i])
+      }
+      return prd
+    }
   },
   methods: {
+    ...mapActions('Shop',['removeProduct']),
     
+    Delete(id){
+        this.removeProduct(id)
+    },
   },
 }
 </script>

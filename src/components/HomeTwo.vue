@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Login />
 
     <div
       id="quickview-modal"
@@ -37,7 +36,6 @@
 <script>
 //Layouts
 import Distributors from "./ComponentHomeTwo/distributors";
-import Login from './layouts/auth/login';
 
 import Footer from "./layouts/footer";
 import Header from "./layouts/headerTwo";
@@ -52,7 +50,6 @@ export default {
   },
   components: {
     Distributors,
-    Login,
     Footer,
     Header,
   },
@@ -66,7 +63,6 @@ export default {
       try {
         const result = await this.axios.get(`/distributor/filter_ubication/${idStates}/${idCity}`);
         this.alldistributor = result.data.data;
-        console.log(result.data.data);
       } catch (error) {
         console.log(error);
       }

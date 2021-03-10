@@ -21,7 +21,7 @@
                         </nav>
                     </div>
                     <div class="page-header__title">
-                        <h1>Carrito de Compras</h1>
+                        <h1>Checkout</h1>
                     </div>
                 </div>
             </div>
@@ -29,7 +29,6 @@
             <div class="checkout block">
                 <div class="container">
                     <div class="row">
-
                         <div class="col-12 col-lg-6 col-xl-7">
                             <div class="card mb-lg-0">
                                 <div class="card-body">
@@ -83,31 +82,43 @@
                         <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
                             <div class="card mb-0">
                                 <div class="card-body">
-                                    <h3 class="card-title">Resumen de tu Pedido</h3>
+                                    <h3 class="card-title">Tu orden</h3>
 
-                                    <table class="checkout__totals">
+                                    <table class="checkout__totals text-center">
                                         <thead class="checkout__totals-header">
                                             <tr>
-                                                <th>Product</th>
-                                                <th>Cantidad</th>
+                                                <th>Producto</th>
+                                                <th>Detalle</th>
                                                 <th>Total</th>
-                                                <th>Eliminar</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="checkout__totals-products" v-for="(product, index) in productts" v-bind:key="index">
+                                        <tbody class="checkout__totals-products" v-for="(product, index) in products" v-bind:key="index">
                                             <tr>
-                                                <td>{{ product.ref.name }}</td>
-                                                <td>{{ product.qty }}</td>
+                                                <td>{{ product.ref.name }}  <span class="text-danger font-weight-bold">X {{ product.qty }} </span> </td>
+                                                <td>
+                                                    <img v-bind:src= "url_img + product.ref.media[0].path" class="img-fluid" width="30%">
+                                                </td>
                                                 <td>${{ product.ref.precio * product.qty }}</td>
-                                                <th>
-                                                    <button v-on:click="Delete(index)" class="btn btn-link"><i class="fas fa-trash"></i></button>
-                                                </th>
+                                            </tr>
+                                        </tbody>
+                                        <tbody class="checkout__totals-subtotals">
+                                            <tr>
+                                                <th>Subtotal</th>
+                                                <td>$5,877.00</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Store Credit</th>
+                                                <td>$-20.00</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Shipping</th>
+                                                <td>$25.00</td>
                                             </tr>
                                         </tbody>
                                         <tfoot class="checkout__totals-footer">
                                             <tr>
                                                 <th>Total</th>
-                                                <td>$5,882.00</td>
+                                                <td>${{ total }}</td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -119,7 +130,7 @@
                                                 <label class="payment-methods__item-header">
                                                     <span class="payment-methods__item-radio input-radio">
                                                         <span class="input-radio__body">
-                                                            <input class="input-radio__input" name="checkout_payment_method" type="radio" checked="checked">
+                                                            <input class="input-radio__input" name="checkout_payment_method" type="radio" checked="checked"> 
                                                             <span class="input-radio__circle"></span> 
                                                         </span>
                                                     </span>
@@ -129,9 +140,8 @@
                                                     <div class="payment-methods__item-description text-muted">
                                                         Make your payment directly into our bank account. Please use your Order ID
                                                         as the payment reference. Your order will not be shipped until
-                                                        the funds have cleared in our account.
+                                                        the funds have cleared in our account.</div>
                                                     </div>
-                                                </div>
                                             </li>
 
                                             <li class="payment-methods__item">
@@ -178,7 +188,7 @@
                                                                 <span class="input-radio__circle"></span>
                                                         </span>
                                                     </span>
-                                                    <span class="payment-methods__item-title">PayPal</span>
+                                                    <span class="payment-methods__item-title font-weight-bold">PayPal</span>
                                                 </label>
                                                 <div class="payment-methods__item-container">
                                                     <div class="payment-methods__item-description text-muted">
@@ -210,7 +220,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -226,7 +235,7 @@ export default {
     name: "Checkout",
     data() {
         return {
-            products : [],
+            url_img:  process.env.VUE_APP_IMG_URL,
         }
     },
 
@@ -238,13 +247,20 @@ export default {
 
         ...mapGetters("Shop", ['shop'] ),
 
-        productts() 
-        {
+        products(){
             const prd = []
             for (let i = 0; i < this.shop.length; i++) {
                 prd.push(this.shop[i])
             }
             return prd
+        },
+
+         total(){
+            var CountTotal = 0
+            for (let i = 0; i < this.shop.length; i++) {
+                CountTotal += (this.shop[i].total)
+            }
+            return CountTotal;
         }
     },
 

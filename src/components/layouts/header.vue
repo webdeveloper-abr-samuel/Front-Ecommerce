@@ -35,7 +35,7 @@
                 </a>
                 
                 <div class="indicator dropdown">
-                  <a href="#" class="indicator__button" title="Contacto">
+                  <a href="/contact" class="indicator__button" title="Contacto">
                     <span class="indicator__area" style="font-size: 21px; color: #484639;">
                       <i class="far fa-address-book"></i>
                     </span>
@@ -91,7 +91,7 @@
 
                    <!-- Logo Contact Us -->
                   <div class="indicator dropdown">
-                    <a href="#" class="indicator__button" title="Contacto">
+                    <a href="/contact" class="indicator__button" title="Contacto">
                       <span class="indicator__area" style="font-size: 21px; color: #484639;">
                         <i class="far fa-address-book"></i>
                       </span>

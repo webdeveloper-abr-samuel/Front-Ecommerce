@@ -2,7 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store/index'
+import VuePaginate from 'vue-paginate'
 
+//Paginacion con Vue
+Vue.use(VuePaginate)
 
 //importando axios
 import axios from 'axios'

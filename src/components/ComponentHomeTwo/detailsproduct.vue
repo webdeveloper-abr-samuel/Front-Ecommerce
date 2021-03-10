@@ -17,7 +17,7 @@
                                         </svg>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        <router-link to="/shop">Shop</router-link>
+                                        <a href="/shop">Productos</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -177,37 +177,25 @@
                                 <div class="product__sidebar">
                                     <div class="product__availability">Availability: <span class="text-success">In
                                             Stock</span></div>
-                                    <div class="product__prices">{{ allProduct.precio }}</div><!-- .product__options -->
+                                    <div class="product__prices">${{ allProduct.precio }}</div><!-- .product__options -->
                                     
                                         <div class="form-group product__option">
                                             <label class="product__option-label">Material</label>
                                             <p>{{ allProduct.material }}</p>
                                             
                                         </div>
-                                        <div class="form-group product__option">
+                                        <div class="form-group product__option py-3 row justify-content-center align-items-center minh-100">
                                             <div class="product__actions">
-                                                <div class="product__actions-item">
-                                                    <div class="input-number product__quantity">
-                                                        <input id="product-quantity" v-model="quanty" class="input-number__input form-control form-control-lg" type="number">
-                                                        <div class="input-number__add" v-on:click="aumentar()"></div>
-                                                        <div class="input-number__sub" v-on:click="disminuir()"></div>
-                                                    </div>
-                                                </div>
                                                 <div class="product__actions-item product__actions-item--addtocart">
                                                     <button v-on:click="addCartProduct()" class="btn btn-primary btn-lg">Add to cart</button>
                                                 </div>
-                                                <div class="product__actions-item product__actions-item--wishlist"><button
-                                                        type="button" class="btn btn-secondary btn-svg-icon btn-lg"
-                                                        data-toggle="tooltip" title="Wishlist"><svg width="16px"
-                                                            height="16px">
+                                                <div class="product__actions-item product__actions-item--wishlist">
+                                                    <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist">
+                                                        <svg width="16px" height="16px">
                                                             <use xlink:href="images/sprite.svg#wishlist-16"></use>
-                                                        </svg></button></div>
-                                                <div class="product__actions-item product__actions-item--compare"><button
-                                                        type="button" class="btn btn-secondary btn-svg-icon btn-lg"
-                                                        data-toggle="tooltip" title="Compare"><svg width="16px"
-                                                            height="16px">
-                                                            <use xlink:href="images/sprite.svg#compare-16"></use>
-                                                        </svg></button></div>
+                                                        </svg>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     <!-- .product__options / end -->
@@ -251,14 +239,14 @@
                                 <div class="product-tabs__pane product-tabs__pane--active" id="tab-description">
                                     <div class="typography">
                                         <h3>Product Full Description</h3>
-                                        <p>Description</p>
+                                        <p>{{ allProduct.description }}</p>
                                     </div>
                                 </div>
                                 <div class="product-tabs__pane" id="tab-specification">
                                     <div class="spec">
                                         <h3 class="spec__header">Specification</h3>
-                                        <div class="spec__disclaimer">
-                                            Material
+                                        <div class="spec__disclaimer font-weight-bold">
+                                            {{ allProduct.material }}
                                         </div>
                                     </div>
                                 </div>
