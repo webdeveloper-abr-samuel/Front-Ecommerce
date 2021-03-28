@@ -1,15 +1,7 @@
 <template>
   <div>
 
-   <Ubicacion />
-
-    <div id="quickview-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content"></div>
-      </div>
-    </div>
-
-   
+   <Ubicacion /> 
 
     <!-- site -->
     <div class="site">
@@ -63,7 +55,6 @@ import Ubicacion from './blockComponents/ubicacion';
 import Footer from "./layouts/footer";
 import Header from "./layouts/header";
 
-
 export default {
   name: "Home",
   components: {
@@ -74,7 +65,7 @@ export default {
     Post,
     Ubicacion,
     Footer,
-    Header,
+    Header    
   }
 };
 </script>

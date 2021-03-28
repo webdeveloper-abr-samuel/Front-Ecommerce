@@ -16,12 +16,6 @@
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     <a href="/home">Distribuidores</a>
-                                    <svg class="breadcrumb-arrow" width="6px" height="9px">
-                                        <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
-                                    </svg>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    <a href="/shop">Productos</a>
                                 </li>
                             </ol>
                         </nav>
@@ -82,7 +76,7 @@
                             <button type="submit" class="btn btn-primary">Aplicar Cupon</button>
                         </form>
                         <div class="cart__buttons">
-                            <router-link to="/shop" class="btn btn-light">Continuar Comprando</router-link> 
+                            <a href="/home" class="btn btn-light">Continuar Comprando</a> 
                         </div>
                     </div>
 
@@ -95,17 +89,13 @@
                                         <thead class="cart__totals-header" >
                                             <tr>
                                                 <th>Subtotal</th>
-                                                <td>$5,877.00</td>
+                                                <td>$1</td>
                                             </tr>
                                         </thead>
                                         <tbody class="cart__totals-body">
                                             <tr>
-                                                <th>Shipping</th>
-                                                <td>$25.00</td>
-                                            </tr>
-                                            <tr>
                                                 <th>Iva</th>
-                                                <td>$</td>
+                                                <td>$1</td>
                                             </tr>
                                         </tbody>
                                         <tfoot class="cart__totals-footer">
@@ -115,9 +105,9 @@
                                             </tr>
                                         </tfoot>
                                     </table>
-                                    <router-link class="btn btn-primary btn-xl btn-block cart__checkout-button" to="/checkout">
-                                        Proceed to checkout
-                                    </router-link>
+                                    <a @click="loadShop()" class="btn btn-primary btn-xl btn-block cart__checkout-button" >
+                                        Procesar Compra
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +122,7 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex'
-import Header from '../layouts/headerTwo'
+import Header from "../layouts/header";
 
 export default {
     name: "Cart",
@@ -168,7 +158,16 @@ export default {
         ...mapActions('Shop', ['addProduct', 'removeProduct', 'removeQty']),
 
         Delete(id){
-            this.removeProduct(id)
+            this.$swal.fire({
+                title: '¿Esta Seguro que desea eliminar este Producto?',
+                showDenyButton: true,
+                confirmButtonText: `Si`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.removeProduct(id)
+                    this.$swal.fire('Eliminado Correctamente', '', 'success')
+                }
+            })
         },
 
         deleteQty(id){
@@ -178,6 +177,26 @@ export default {
         addCartProduct(id){
             this.addProduct(id)
         },
-    },
+
+        loadShop(){
+            const user = localStorage.getItem('nitUSer')
+            if (user == null) {
+                this.$toastr.Add({
+                    title: "Bienvenido", 
+                    msg: "Debe Iniciar Sesion para Procesar su compra", 
+                    clickClose: true, 
+                    timeout: 3500, 
+                    progressbar: true, 
+                    position: "toast-top-right", 
+                    type: "info", 
+                    preventDuplicates: true, 
+                    style: {fontWeight: "bold"} 
+                });
+            }else{
+                location.href = "/checkout"
+            }
+        }
+        
+    }
 }
 </script>

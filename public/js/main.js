@@ -3,9 +3,13 @@
     
     
     $(function(){
-        $('.ubication-modal').modal('show');
+        const id = localStorage.getItem("idUbication");
+        if (id == null) {
+            $('.ubication-modal').modal('show');
+        }
     });
     
+
     let passiveSupported = false;
 
     try {
@@ -17,15 +21,6 @@
 
         window.addEventListener('test', null, options);
     } catch(err) {}
-
-
-    /*
-    // initialize custom numbers
-    */
-  /*   $(function () {
-        $('.input-number').customNumber();
-    });
- */
 
     /*
     // topbar dropdown
@@ -503,7 +498,7 @@
     /*
     // product gallery
     */
-    const initProductGallery = function(element, layout) {
+   /*  const initProductGallery = function(element, layout) {
         layout = layout !== undefined ? layout : 'standard';
 
         const options = {
@@ -589,16 +584,26 @@
             }
         }
     };
+    
+
+    $(function() { 
+        $('.modal').on('shown.bs.modal', function () {  
+            $(this).each(function() {
+                const gallery = $(this).find('.product-gallery');
+                initProductGallery(gallery[0], $(this).data('layout'));
+            })
+        })
+    });
 
     $(function() {
         $('.product').each(function () {
             const gallery = $(this).find('.product-gallery');
-
+    
             if (gallery.length > 0) {
                 initProductGallery(gallery[0], $(this).data('layout'));
             }
         });
-    });
+    }); */
 
 
     /*
@@ -773,3 +778,113 @@
         });
     });
 })(jQuery);
+
+
+const initProductGallery = function(element, layout) {
+    layout = layout !== undefined ? layout : 'standard';
+
+    const options = {
+        dots: false,
+        margin: 10
+    };
+    const layoutOptions = {
+        standard: {
+            responsive: {
+                1200: {items: 5},
+                992: {items: 4},
+                768: {items: 3},
+                480: {items: 5},
+                380: {items: 4},
+                0: {items: 3}
+            }
+        },
+        sidebar: {
+            responsive: {
+                768: {items: 4},
+                480: {items: 5},
+                380: {items: 4},
+                0: {items: 3}
+            }
+        },
+        columnar: {
+            responsive: {
+                768: {items: 4},
+                480: {items: 5},
+                380: {items: 4},
+                0: {items: 3}
+            }
+        },
+        quickview: {
+            responsive: {
+                1200: {items: 5},
+                768: {items: 4},
+                480: {items: 5},
+                380: {items: 4},
+                0: {items: 3}
+            }
+        }
+    };
+
+    const gallery = $(element);
+
+    const image = gallery.find('.product-gallery__featured .owl-carousel');
+    const carousel = gallery.find('.product-gallery__carousel .owl-carousel');
+
+    image
+        .owlCarousel({items: 1, dots: false})
+        .on('changed.owl.carousel', syncPosition);
+
+    carousel
+        .on('initialized.owl.carousel', function () {
+            carousel.find('.product-gallery__carousel-item').eq(0).addClass('product-gallery__carousel-item--active');
+        })
+        .owlCarousel($.extend({}, options, layoutOptions[layout]));
+
+    carousel.on('click', '.owl-item', function(e){
+        e.preventDefault();
+
+        image.data('owl.carousel').to($(this).index(), 300, true);
+    });
+
+    function syncPosition (el) {
+        let current = el.item.index;
+
+        carousel
+            .find('.product-gallery__carousel-item')
+            .removeClass('product-gallery__carousel-item--active')
+            .eq(current)
+            .addClass('product-gallery__carousel-item--active');
+        const onscreen = carousel.find('.owl-item.active').length - 1;
+        const start = carousel.find('.owl-item.active').first().index();
+        const end = carousel.find('.owl-item.active').last().index();
+
+        if (current > end) {
+            carousel.data('owl.carousel').to(current, 100, true);
+        }
+        if (current < start) {
+            carousel.data('owl.carousel').to(current - onscreen, 100, true);
+        }
+    }
+};
+
+$(function() {
+    $('.product').each(function () {
+        const gallery = $(this).find('.product-gallery');
+
+        if (gallery.length > 0) {
+            initProductGallery(gallery[0], $(this).data('layout'));
+        }
+    });
+});
+
+$(function() { 
+    $('.modal').on('shown.bs.modal', function () {  
+        $(this).each(function() {
+            const gallery = $(this).find('.product-gallery');
+            console.log(gallery[0]);
+            initProductGallery(gallery[0], $(this).data('layout'));
+        })
+    })
+});
+
+

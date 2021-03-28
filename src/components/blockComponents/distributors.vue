@@ -11,13 +11,10 @@
         <div class="block-categories__item category-card category-card--layout--classic" v-for="(data , index) in allDistributor" :key="index">
           <div class="category-card__body">
             <div class="category-card__image">
-              <a><img v-bind:src= "url_img + data.media[0].path" /></a>
+              <img style="width: 90px;" v-bind:src= "url_img + data.media[0].path" class="img-fluid" />
             </div>
             <div class="category-card__content">
               <div class="category-card__name"><a>{{ data.name }}</a></div>
-              <ul class="category-card__links">
-                <li><p class="font-weight-bold">Dirección</p> {{ data.address }}</li>
-              </ul>
             </div>
           </div>
         </div>

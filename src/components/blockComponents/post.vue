@@ -26,14 +26,14 @@
             <div class="carousel-item active">
                <div class="card mb-3 card-border"  style="max-width: auto">
                   <div class="row no-gutters">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                       <img  class="img-responsive img-fluid"  v-bind:src= "url_img + initialPost.path" >
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                       <div class="card-body">
                         <p class="card-text"><small class="text-muted">{{ initialPost.date_post }}</small></p>
-                        <p class="card-text"><small class="text-muted">{{ initialPost.autor }}</small></p>
-                        <h5 class="card-title">{{ initialPost.title }}</h5>
+                        <p class="card-text"><small class="text-muted">Autor : {{ initialPost.autor }}</small></p>
+                        <h5 class="card-title text-center">{{ initialPost.title }}</h5>
                         <p class="card-text">{{ initialPost.description }}</p>
                       </div>
                     </div>
@@ -44,14 +44,14 @@
             <div class="carousel-item" v-for="(data , index) in allPost" :key="index">
                <div class="card mb-3 card-border" style="max-width: auto">
                   <div class="row no-gutters">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                       <img  class="img-responsive img-fluid"  v-bind:src= "url_img + data.path" >
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                       <div class="card-body">
                         <p class="card-text"><small class="text-muted">{{ data.date_post }}</small></p>
                         <p class="card-text"><small class="text-muted">{{ data.autor }}</small></p>
-                        <h5 class="card-title">{{ data.name }}</h5>
+                        <h5 class="card-title text-center">{{ data.name }}</h5>
                         <p class="card-text">{{ data.description }}</p>
                       </div>
                     </div>

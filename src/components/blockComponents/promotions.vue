@@ -29,13 +29,13 @@
             <div class="carousel-item active">
                <div class="card mb-3 card-border"  style="max-width: auto">
                   <div class="row no-gutters">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                       <img  class="img-responsive img-fluid"  v-bind:src= "url_img + initialPromo.path" >
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                       <div class="card-body">
                         <p class="card-text"><small class="text-muted">Del : {{ initialPromo.start_date }} - Hasta {{ initialPromo.end_date }}</small></p>
-                        <h5 class="card-title">{{ initialPromo.title }}</h5>
+                        <h5 class="card-title text-center">{{ initialPromo.title }}</h5>
                         <p class="card-text">{{ initialPromo.description }}</p>
                       </div>
                     </div>
@@ -46,10 +46,10 @@
             <div class="carousel-item" v-for="(data , index) in allPromotion" :key="index">
                <div class="card mb-3 card-border" style="max-width: auto">
                   <div class="row no-gutters">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                       <img  class="img-responsive img-fluid"  v-bind:src= "url_img + data.path" >
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                       <div class="card-body">
                         <p class="card-text"><small class="text-muted">Del : {{ data.start_date }} - Hasta {{ data.end_date }}</small></p>
                         <h5 class="card-title">{{ data.title }}</h5>

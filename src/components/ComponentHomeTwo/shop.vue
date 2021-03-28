@@ -62,13 +62,14 @@
                     <ShopContent v-bind:allProduct="allProduct" v-bind:filterProduct="filterProduct"></ShopContent>
                 </div>
             </div>
+            
         </div>
     </div>
 </template>
 
 <script>
 
-import Header from '../layouts/headerTwo'
+import Header from "../layouts/header";
 import ShopContent from './shopContent';
 
 export default {
@@ -94,19 +95,23 @@ export default {
        async loadProduct(categoria, subcategoria){
             this.nameDistributor = localStorage.getItem("nameDistributor");
             const id = localStorage.getItem("idDistributor");
+            const ubication = localStorage.getItem("idUbication");
+
             try {
-                const result = await this.axios.get(`/price/filter/product/${id}`);
+                const result = await this.axios.get(`/priceList/filter/product/${id}/${ubication.trim()}`);
                 const filter = result.data.data.filter((element) => {
                     if (element.category === categoria && element.subcategory === subcategoria) {
                         return element
                     }
                 });
 
+
                 const filterCategoria = result.data.data.filter((element) => {
                     if (element.category === categoria) {
                         return element
                     }
                 });
+
 
                 if (filter != "") {
                     this.filterProduct = filter;

@@ -52,7 +52,7 @@
                 personales, escríbanos de inmediato a este correo electrónico:
                 s.ocampo@abracol.com o comuníquese al teléfono 289 51 50, o en
                 la Sede Principal, MK 20 en el Municipio de Girardota –
-                Departamento Antioquia.
+                 Antioquia.
               </p>
             </div>
           </div>

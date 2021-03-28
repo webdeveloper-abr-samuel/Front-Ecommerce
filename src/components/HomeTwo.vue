@@ -1,18 +1,5 @@
 <template>
   <div>
-
-    <div
-      id="quickview-modal"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content"></div>
-      </div>
-    </div>
-
     <!-- site -->
     <div class="site">
       <!-- site__header -->
@@ -38,8 +25,8 @@
 import Distributors from "./ComponentHomeTwo/distributors";
 
 import Footer from "./layouts/footer";
-import Header from "./layouts/headerTwo";
-
+import Header from "./layouts/header";
+import { mapGetters } from 'vuex'
 
 export default {
   name: "Home",
@@ -53,15 +40,17 @@ export default {
     Footer,
     Header,
   },
+  computed:{
+    ...mapGetters("Ubications", ['Dep'] ),
+  },
   created(){
       this.loadDistributor();
   },
   methods: {
     async loadDistributor(){
-      const idStates = localStorage.getItem("Dep");
-      const idCity = localStorage.getItem("Ciu");
+      const idStates = this.Dep;
       try {
-        const result = await this.axios.get(`/distributor/filter_ubication/${idStates}/${idCity}`);
+        const result = await this.axios.get(`/distributor/filter_ubication/${idStates}`);
         this.alldistributor = result.data.data;
       } catch (error) {
         console.log(error);

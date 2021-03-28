@@ -10,6 +10,7 @@ import DetailsProduct from '../components/ComponentHomeTwo/detailsproduct.vue'
 import Cart from '../components/ComponentHomeTwo/cart.vue'
 import Contact from '../components/blockComponents/contactUs.vue'
 import TratamientoDeDatos from '../components/ComponentFooter/tratamiendoDeDatos.vue'
+import Orders from '../components/ComponentHomeTwo/orders.vue'
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/tratamiento_de_datos',
     name: 'TratamientoDeDatos',
     component: TratamientoDeDatos
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: Orders
   }
 ]
 

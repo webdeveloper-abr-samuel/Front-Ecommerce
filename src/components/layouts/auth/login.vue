@@ -11,12 +11,6 @@
     >
       <div class="modal-dialog">
         <div class="modal-content">
-          <!-- <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">
-              <div class="indicator">login</div>
-            </h5>
-            
-          </div> -->
           <div class="modal-body">
 
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -32,36 +26,28 @@
               <div class="row justify-content-center align-items-center minh-100">
 
                 <div class="page-header__title">
-                  <h1>Login</h1>
+                  <h1>Iniciar Sesión</h1>
                 </div>
 
                 <div class="col-lg-12 d-flex">
                   <div class="card-body">
-                    <form>
-                      <div class="form-group">
-                        <label>Email address</label>
-                        <input
-                          type="email"
-                          class="form-control"
-                          placeholder="Enter email"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" placeholder="Password"/>
-                      </div>
+                    <div class="form-group">
+                      <label>Identificacion</label>
+                      <input v-model="nit" type="text" class="form-control" placeholder="Ingrese el Nit"/>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label>Contraseña</label>
+                      <input v-model="password" type="password" class="form-control" placeholder="Ingrese la Contraseña"/>
+                    </div>
 
-                      
-
-                      <div class="btn-group mb-2">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                      </div>
-
-                      <small class="form-text text-muted">
-                        <router-link to="register">Registrar</router-link>
-                      </small>
-
-                    </form>
+                    <div class="btn-g mb-2">
+                      <button data-dismiss="modal" aria-label="Close" @click="LoginUser()" type="submit" class="btn btn-primary">Entrar</button>
+                      <button class="btn btn-outline-warning " data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#modalRegister">
+                        Registrar
+                      </button>
+                    </div>
+                    
                   </div>
                 </div>
 
@@ -73,6 +59,59 @@
     </div>
   </div>
 </template>
+
+<script>
+import { mapActions } from 'vuex'
+export default {
+  name: "Login",
+  data() {
+    return {
+      nit: "",
+      password: ""
+    }
+  },
+  methods: {
+    ...mapActions("Users", ['LoadUser'] ),
+
+    async LoginUser(){
+      let newLogin = {
+        nit: this.nit, 
+        password: this.password
+      }
+      try {
+        const res = await this.axios.post("/login", newLogin);  
+        localStorage.setItem("Token" , res.data.token );
+        localStorage.setItem("nameUser" , res.data.nombreUser );
+        localStorage.setItem("nitUSer" , res.data.nitUser );
+        localStorage.setItem("idUSer" , res.data.userId );
+        this.LoadUser();
+        await this.clear(); 
+         this.$toastr.Add({
+            title: "Inicio Sesion Correctamente", 
+            msg: "", 
+            clickClose: true, 
+            timeout: 2000, 
+            progressbar: true, 
+            position: "toast-top-right", 
+            type: "success", 
+            preventDuplicates: true, 
+            style: {fontWeight: "bold"} 
+          });
+          setTimeout(() => {
+            location.href = "/orders"
+          }, 2000);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    clear(){
+        this.nit = "", 
+        this.password = ""
+    }
+  },
+}
+</script>
 
 <style>
 .modal-backdrop {

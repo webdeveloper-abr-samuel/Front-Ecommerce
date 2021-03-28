@@ -1,36 +1,27 @@
 <template>
-  <div class="block-slideshow block-slideshow--layout--full block">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-            <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner" >
-                <div class="carousel-item active">
-                  <img v-bind:src= "url_img + initial.path" class="d-block w-100" alt="...">
-                  <div class="carousel-caption d-none d-md-block">
-                     <div class="block-slideshow__slide-content">
-                        <div class="block-slideshow__slide-title">
-                          {{ initial.name }}
-                        </div>
-                        <div class="block-slideshow__slide-button">
-                          <span class="btn btn-danger btn-lg">Shop Now</span>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-
-                <div v-for="(data , index) in allSlides" :key="index" class="carousel-item">
-                  <img v-bind:src= "url_img + data.path" class="d-block w-100" alt="...">
-                  <div class="carousel-caption d-none d-md-block">
-                      <div class="block-slideshow__slide-content">
-                        <div class="block-slideshow__slide-button">
-                          <span class="btn btn-danger btn-lg">Shop Now</span>
-                        </div>
-                      </div>
-                  </div>
+  <div class="block-slideshow block-slideshow--layout--full block">    
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner" >
+        <div class="carousel-item active">
+          <img v-bind:src= "url_img + initial.path" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+              <div class="block-slideshow__slide-content">
+                <div class="block-slideshow__slide-title">
+                  {{ initial.name }}
                 </div>
               </div>
-            </div>
+          </div>
+        </div>
+
+        <div v-for="(data , index) in allSlides" :key="index" class="carousel-item">
+          <img v-bind:src= "url_img + data.path" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+              <div class="block-slideshow__slide-content">
+                <div class="block-slideshow__slide-button">
+                  <span class="btn btn-danger btn-lg">Shop Now</span>
+                </div>
+              </div>
+          </div>
         </div>
       </div>
     </div>

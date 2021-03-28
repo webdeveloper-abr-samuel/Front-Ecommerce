@@ -6,7 +6,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <router-link to="/">Home</router-link> 
+                            <a href="/">Home</a> 
                                 <svg class="breadcrumb-arrow" width="6px" height="9px">
                             </svg>
                         </li>
