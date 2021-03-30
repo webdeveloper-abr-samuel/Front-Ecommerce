@@ -11,14 +11,14 @@
             <div class="product-card">
               <div class="product-card__image">
                 <a>
-                  <img v-bind:src= "url_img + img.path" />
+                  <img v-bind:src= "url_img + img" />
                 </a>
               </div>
               <div class="product-card__info">
                 <div class="product-card__name">
-                  <a>
+                  <button class="btn btn-link" v-on:click="captureProduct(itemInitial)">
                     {{ itemInitial.name }}
-                  </a>
+                  </button>
                 </div>
                 <div class="mt-3 text-justify">
                   <p>
@@ -38,13 +38,12 @@
             <div class="product-card">
               <div class="product-card__image">
                 <a>
-                  <img v-bind:src= "url_img + data.media[0].path" alt=""/>
+                  <img class="img-fluid px-3" v-bind:src= "url_img + data.media[0]" alt=""/>
                 </a>
               </div>
               <div class="product-card__info">
-                <div class="product-card__name mb-3">
-                  {{ data.name }}
-                  
+                <div class="product-card__name mt-3 mb-3">
+                  <button class="btn btn-link" v-on:click="captureProduct(data)">{{ data.name }}</button>
                 </div>
               </div>
               <div class="product-card__actions">
@@ -79,7 +78,7 @@ export default {
   methods: {
     async loadProduct(){
       try {
-        const result = await this.axios.get("/product");
+        const result = await this.axios.get("/product/landing/page");
         this.itemInitial = result.data.data[0];
         this.img = result.data.data[0].media[0];
         for (let i = 1; i < result.data.data.length; i++) {
@@ -88,7 +87,12 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+    captureProduct(prod){
+        localStorage.setItem("Product", JSON.stringify( prod ));
+        location.href = "/details_product"
+    },
+    
   },
 }
 </script>

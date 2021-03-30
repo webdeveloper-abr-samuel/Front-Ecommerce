@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Header from "../layouts/header";
 
 export default {
@@ -161,6 +161,7 @@ export default {
     methods: {
 
         ...mapActions('Shop',['removeProduct']),
+        ...mapMutations('Users', ['dlt_User']),
 
         Delete(id){
             this.removeProduct(id)
@@ -200,6 +201,14 @@ export default {
             const fecha_formatiada = fecha.getFullYear() + "/" + (fecha.getMonth() +1) + "/" + fecha.getDate()
             const distri = localStorage.getItem("idDistributor");
             const idUser = localStorage.getItem("idUSer");
+            const token = localStorage.getItem("Token");
+
+             let config = {
+                headers: {  'Authorization': `Bearer ${token}`  }
+            }
+            
+            
+
             let new_order_heading = {
                 id_distributor : distri,
                 id_user: idUser,
@@ -217,7 +226,8 @@ export default {
             let new_order_detail = [];
 
             try {
-                let heading = await this.axios.post("/order_heading", new_order_heading);  
+                let heading = await this.axios.post("/order_heading", new_order_heading, config);  
+
                 this.shop.forEach(element => {
                     new_order_detail.push({
                         id_product: element.ref.id,
@@ -253,17 +263,39 @@ export default {
                             timer: 1500
                         });
                         setTimeout(() => {
-                            this.axios.post("/order_details", element); 
+                            this.axios.post("/order_details", element, config); 
                             location.href = "/orders"
                         }, 1500);
                     }
                 })
 
-            } catch (error) {
-                console.log(error);
+            } catch (error) {                
+                this.$toastr.Add({
+                    title: error.response.data.msg, 
+                    msg: "Inicie Sesion Nuevamente", 
+                    clickClose: true, 
+                    timeout: 2000, 
+                    progressbar: false, 
+                    position: "toast-top-right", 
+                    type: "error", 
+                    preventDuplicates: true, 
+                    style: {fontWeight: "bold"} 
+                });
+                setTimeout(() => {
+                    this.Logout();
+                }, 2000);
             }
+        },
+
+        Logout(){
+            localStorage.removeItem('nameUser');
+            localStorage.removeItem('nitUSer');
+            localStorage.removeItem('idUSer')
+            localStorage.removeItem('Token');
+            this.dlt_User();
+            location.href = "/home"
         }
-        
+                
     },
 }
 </script>

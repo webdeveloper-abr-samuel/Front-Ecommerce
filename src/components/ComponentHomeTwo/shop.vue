@@ -1,8 +1,8 @@
 <template>
     <div>
+        <staticLogo></staticLogo>
         <Header></Header>
-        <div class="mt-4 py-3">
-            
+        <div class="mt-4 py-3">   
             <div class="page-header">
                 <div class="page-header__container container">
                      <div class="page-header__breadcrumb">
@@ -61,8 +61,7 @@
 
                     <ShopContent v-bind:allProduct="allProduct" v-bind:filterProduct="filterProduct"></ShopContent>
                 </div>
-            </div>
-            
+            </div>           
         </div>
     </div>
 </template>
@@ -71,6 +70,7 @@
 
 import Header from "../layouts/header";
 import ShopContent from './shopContent';
+import staticLogo from '../blockComponents/staticLogo'
 
 export default {
     name: "Shop",
@@ -85,7 +85,8 @@ export default {
     },
     components: {
         Header,
-        ShopContent
+        ShopContent,
+        staticLogo
     },
     created() {
         this.loadProduct();

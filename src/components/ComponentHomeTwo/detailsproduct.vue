@@ -1,5 +1,6 @@
 <template>
     <div>
+        <staticLogo></staticLogo>
         <Header></Header>
         <div class="mt-4 py-3">
             
@@ -41,7 +42,7 @@
                                         </div>
                                         <div class="product-gallery__carousel">
                                             <div class="owl-carousel" id="product-carousel">
-                                                <a class="product-gallery__carousel-item" v-for="(media, index) in allProduct.media" :key="index">
+                                                <a class="product-gallery__carousel-item"  v-for="(media, index) in allProduct.media" :key="index">
                                                     <img class="product-gallery__carousel-image" v-bind:src= "url_img + media">
                                                 </a>
                                             </div>
@@ -65,22 +66,78 @@
                                         </button>
                                     </div>
                                     <h1 class="product__name">{{ allProduct.name }}</h1>
-
-                                    
                                     <div class="mb-3 row justify-content-center align-items-center minh-100">
-                                        <span class="mt-2 py-2 px-2">Calificación:</span>
-                                        <star-rating
-                                            v-bind:increment="0.01"
-                                            v-bind:rating= raiting
-                                            v-bind:show-rating="false"
-                                            v-bind:read-only = true
-                                            v-bind:max-rating="5"
-                                            inactive-color="#ccc"
-                                            active-color="#ffd333"
-                                            v-bind:star-size="20"
-                                        >
-                                        </star-rating>
-                                        <span class="mt-2 py-2 px-2">{{ raiting }} </span>
+                                        <span class="mt-2 px-2">Calificación:</span>
+                                        <div v-if="loguser != null">
+                                            <star-rating
+                                                v-bind:increment="1"
+                                                v-bind:max-rating="5"
+                                                inactive-color="#ccc"
+                                                active-color="#ffd333"
+                                                v-bind:star-size="20"
+                                                :rating=raiting
+                                                @rating-selected="saveLoginRating"
+                                            >
+                                            </star-rating>
+                                        </div>
+                                        <div v-else>
+                                            <star-rating 
+                                                data-toggle="modal" 
+                                                data-target="#exampleModal"
+                                                :rating=raiting
+                                                :read-only="true" 
+                                                v-bind:increment="1"
+                                                v-bind:max-rating="5"
+                                                inactive-color="#ccc"
+                                                active-color="#ffd333"
+                                                v-bind:star-size="20"
+                                            ></star-rating>
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Califica Nuestro Producto</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body mb-3 ">
+                                                        Seleccion tu Calificacion
+                                                        <div class="row justify-content-center align-items-center minh-100">
+                                                            <star-rating
+                                                                v-bind:increment="1"
+                                                                v-bind:max-rating="5"
+                                                                inactive-color="#ccc"
+                                                                active-color="#ffd333"
+                                                                v-bind:star-size="20"
+                                                                :rating=raiting
+                                                                @rating-selected="setRating"
+                                                            >
+                                                            </star-rating>
+                                                        </div>
+                                                        <div class="form mt-4">
+                                                            <div class="form-group">
+                                                                <label for="checkout-first-name">Nombre</label> 
+                                                                <input type="text" v-model="name" class="form-control" id="checkout-first-name" placeholder="Name">
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label for="checkout-email">Email</label> 
+                                                                <input type="email" class="form-control" v-model="email" id="checkout-email" placeholder="Correo">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="checkout-email">Ciudad/Población</label> 
+                                                                <input type="email" class="form-control" v-model="address" id="checkout-email" placeholder="Direccion">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                        <button type="button" @click="saveRating" class="btn btn-primary">Guardar Calificacion</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     
 
@@ -172,29 +229,17 @@
 
                                         <!-- Comment -->
                                         <div class="reviews-view__form">
-                                            <h3 class="reviews-view__header">Escribe Un Comentario y Califica</h3>
+                                            <h3 class="reviews-view__header">Escribe Un Comentario</h3>
                                             <div class="row">
                                                 <div class="col-1"></div>
                                                 <div class="col-12 col-lg-10 col-xl-10">
-                                                    
-                                                    <div class="form-group">
-                                                        <label for="review-stars">Calificación</label> 
-                                                        <select v-model="selectRaiting" id="review-stars" class="form-control">
-                                                            <option value="5">5 Estrellas</option>
-                                                            <option value="4">4 Estrellas</option>
-                                                            <option value="3">3 Estrellas</option>
-                                                            <option value="2">2 Estrellas</option>
-                                                            <option value="1">1 Estrella</option>
-                                                        </select>
-                                                    </div>
-                                                   
                                                     <div class="form-group">
                                                         <label for="review-text">Comentario</label>
                                                         <textarea v-model="comment" class="form-control" id="review-text" rows="6"></textarea>
                                                     </div>
 
                                                     <div class="form-group mb-0">
-                                                        <button @click="saveCommentRaiting()" type="submit" class="btn btn-primary btn-lg">Publicar Comentario</button>
+                                                        <button @click="saveComment()" type="submit" class="btn btn-primary btn-lg">Publicar Comentario</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,6 +261,7 @@
 import Header from "../layouts/header";
 import { mapActions, mapGetters } from 'vuex'
 import StarRating from 'vue-star-rating';
+import staticLogo from '../blockComponents/staticLogo'
 export default {
     name: "DetailsProduct",
     data() {
@@ -224,17 +270,23 @@ export default {
             allProduct: [],
             CommentAndRaiting : [],
             raiting: 0,
-            selectRaiting: "",
             comment: "",
-            paginate: ['CommentAndRaiting']
+            paginate: ['CommentAndRaiting'],
+            loguser: localStorage.getItem('idUSer'),
+            name: '',
+            email: '',
+            address: '',
+            calificaciones: ''
         }
     },
     components: {
         Header,
-        StarRating
+        StarRating,
+        staticLogo
     },
     computed:{
-       ...mapGetters("Shop", ['shop'] )      
+       ...mapGetters("Shop", ['shop'] ),
+        ...mapGetters("Users", ['datauser'] )
     },
     created() {
         this.loadProduct();
@@ -273,7 +325,7 @@ export default {
                 console.log(error);
             }
         },
-        async saveCommentRaiting(){
+        async saveComment(){
             try {
                 const idProduct = this.allProduct.id
                 const idUser = localStorage.getItem("idUSer");
@@ -285,11 +337,6 @@ export default {
                     description : this.comment,
                     fecha : fecha_formatiada,
                     status: 0
-                }
-                let newRaiting = {
-                    id_product: idProduct, 
-                    id_user : idUser, 
-                    rating : this.selectRaiting, 
                 }
                 if (idUser == null) {
                     this.$toastr.Add({
@@ -305,11 +352,52 @@ export default {
                     });
                 }else{
                     const Upcomment = await this.axios.post('comment',newComment);  
-                    const UpRaiting = await this.axios.post('raiting',newRaiting);  
-                    if (Upcomment.status == 200 && UpRaiting.status == 200) {
+                    if (Upcomment.status == 200) {
                         location.href = "/details_product"
                     }
                 }
+            } catch (error) {
+                console.log(error);
+            }
+        },        
+        setRating(rating) {
+            this.calificaciones = rating
+        },
+        async saveRating(){
+            const idProduct = this.allProduct.id
+             let newRaiting = {
+                id_product: idProduct, 
+                name: this.name,
+                email:this.email,
+                address: this.address,
+                rating: this.calificaciones
+            }
+            try {
+                if (this.name != "" || this.email != "" || this.address != "") {
+                    const UpRaiting = await this.axios.post('raiting',newRaiting);  
+                    if (UpRaiting.status == 200) {
+                        location.href = "/details_product"
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async saveLoginRating(rating){
+            const idProduct = this.allProduct.id
+            let newRaiting = {
+                id_product: idProduct, 
+                name: this.datauser[0].name,
+                email: this.datauser[0].email,
+                address: this.datauser[0].address,
+                rating: rating
+            };
+            try {
+                const UpRaiting = await this.axios.post('raiting',newRaiting);  
+                if (UpRaiting.status == 200) {
+                    location.href = "/details_product"
+                }
+                
             } catch (error) {
                 console.log(error);
             }

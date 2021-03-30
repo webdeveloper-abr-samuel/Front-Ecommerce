@@ -877,7 +877,7 @@ $(function() {
     });
 });
 
-$(function() { 
+/* $(function() { 
     $('.modal').on('shown.bs.modal', function () {  
         $(this).each(function() {
             const gallery = $(this).find('.product-gallery');
@@ -885,6 +885,6 @@ $(function() {
             initProductGallery(gallery[0], $(this).data('layout'));
         })
     })
-});
+}); */
 
 

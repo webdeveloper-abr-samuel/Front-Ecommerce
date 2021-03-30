@@ -1,5 +1,6 @@
 <template>
   <div>
+    <staticLogo></staticLogo>
     <!-- site -->
     <div class="site">
       <!-- site__header -->
@@ -23,6 +24,7 @@
 <script>
 //Layouts
 import Distributors from "./ComponentHomeTwo/distributors";
+import staticLogo from './blockComponents/staticLogo'
 
 import Footer from "./layouts/footer";
 import Header from "./layouts/header";
@@ -39,6 +41,7 @@ export default {
     Distributors,
     Footer,
     Header,
+    staticLogo
   },
   computed:{
     ...mapGetters("Ubications", ['Dep'] ),

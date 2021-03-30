@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div>    
 
-   <Ubicacion /> 
+    <Logo></Logo>
+
+    <Ubicacion />
 
     <!-- site -->
     <div class="site">
@@ -30,7 +32,6 @@
         <!-- .block-posts -->
         <Post />
         <!-- .block-posts / end -->
-
       </div>
       <!-- site__body / end -->
 
@@ -49,7 +50,8 @@ import Promotions from "./blockComponents/promotions";
 import Products from "./blockComponents/products";
 import Distributors from "./blockComponents/distributors";
 import Post from "./blockComponents/post";
-import Ubicacion from './blockComponents/ubicacion';
+import Ubicacion from "./blockComponents/ubicacion";
+import Logo from './blockComponents/staticLogo'
 
 //Layouts
 import Footer from "./layouts/footer";
@@ -65,7 +67,8 @@ export default {
     Post,
     Ubicacion,
     Footer,
-    Header    
-  }
+    Header,
+    Logo
+  },
 };
 </script>
